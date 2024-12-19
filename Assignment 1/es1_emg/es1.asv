@@ -1,0 +1,80 @@
+clear;
+close all;
+clc;
+
+% Load the EMG data
+load ES1_emg.mat
+
+% Sampling frequency and cutoff frequencies
+Fs = 2000;
+% Low cutoff frequency
+f1 = 30; 
+% High cutoff frequency
+f2 = 450;
+
+% We take the data of the EMG
+EMG_data =  Es1_emg.matrix(:,1);
+
+% Design the FIR bandpass filter using fir1
+% Filter order
+n = 50;
+% Nyquist for the computation of w_n
+w_n = [f1, f2]/(Fs/2);
+% FIR bandpass filter coefficients
+b = fir1(n, w_n, 'bandpass'); 
+
+% Filter the data using filtfilt for zero-phase filtering
+filtered_data = filtfilt(b, 1, EMG_data);
+
+% Create time vector based on the sample rate
+time = (0:length(EMG_data)-1) / Fs;
+
+% Plotting the data before and after filtering
+figure;
+subplot(3, 1, 1);
+plot(time, EMG_data);
+hold on; plot(time, filtered_data);
+title('Raw EMG Data vs Filtered EMG data');
+xlabel('Time (ms)');
+ylabel('Amplitude');
+legend('Raw EMG data', 'Filtered EMG data')
+grid on;
+xlim([0, 65])
+
+rectified_data = abs(filtered_data);
+lp_cutoff_norm = 3/(Fs/2);
+[a, b] = butter(4, lp_cutoff_norm);
+envelope_data = filtfilt(a, b, rectified_data);
+
+subplot(3, 1, 2);
+plot(time, rectified_data);
+hold on; plot(time, envelope_data, 'LineWidth', 1);
+
+title('Rectified vs Envelope');
+xlabel('Time (ms)');
+ylabel('Amplitude');
+legend('Rectified', 'Envelope')
+grid on;
+xlim([0, 65])
+
+subplot(3, 1, 3);
+downcscaling_factor = 2;
+% time = (0:(length(EMG_data)/downcscaling_factor)-1) / Fs; % Time vector
+data_final = downsample(envelope_data, downcscaling_factor);
+data_final = data_final./max(data_final);
+X_accel = Es1_emg.matrix(:,2);
+Y_accel = Es1_emg.matrix(:,3);
+Z_accel = Es1_emg.matrix(:,4);
+norm_accelerations = sqrt(X_accel.^2 + Y_accel.^2 + Z_accel.^2);
+plot(time, envelope_data/max(envelope_data), 'LineWidth', 1);
+hold on; plot(time, norm_accelerations - max(norm_accelerations), 'LineWidth', 1);
+
+title('Downscaled signal vs Accellerations');
+xlabel('Time (ms)');
+ylabel('Amplitude');
+xlim([0, 65])
+legend('Downscaled signal', 'Accellerations')
+grid on;
+
+
+
