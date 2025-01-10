@@ -7,17 +7,6 @@ This a repository for [Biomedical Robotics](https://corsi.unige.it/off.f/2024/in
 - [Ramona Ferrari](https://github.com/ramonaferrarii)
 - [Daniele Rialdi](https://github.com/danielerialdi)
 
-## Assignment 0
-..
-
-## Assignment 1
-...
-
-## Assignment 2
-...
-
-## Assignment 3
-...
-
+For more details, please refer to the report.
 
 
