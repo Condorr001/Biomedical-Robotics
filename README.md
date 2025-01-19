@@ -7,6 +7,5 @@ This a repository for [Biomedical Robotics](https://corsi.unige.it/off.f/2024/in
 - [Ramona Ferrari](https://github.com/ramonaferrarii)
 - [Daniele Rialdi](https://github.com/danielerialdi)
 
-For more details, please refer to the report.
 
 
