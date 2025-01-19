@@ -44,18 +44,17 @@ lp_cutoff_norm = 3/(Fs/2);
 envelope_data = filtfilt(a, b, rectified_data);
 
 %% Downsampling
-% Check if the optimal downscaling factor satisfies the Nyquist requirement
-downcscaling_factor = 2;
-% Data after downsampling
-data_final = downsample(envelope_data, downcscaling_factor);
-data_final = data_final./max(data_final);
 
+% Check if the downscaling factor satisfies the Nyquist requirement
 downcscaling_factor = 2;
-new_fs = Fs / div_factor;
+new_fs = Fs / downcscaling_factor;
 
 if new_fs > 2*f2
-    data_final = downsample(envelope, downcscaling_factor);
+    data_final = downsample(envelope_data, downcscaling_factor);
 end
+
+% Normalization
+data_final = data_final./max(data_final);
 
 %% Extracting accelerations and computing their norm
 
