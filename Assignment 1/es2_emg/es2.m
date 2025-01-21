@@ -75,8 +75,8 @@ end
 %% Data interpretation
 % 1 Bicep right     --> Est
 % 2 Bicep left      --> West
-% 3 Trapezius right --> Nord
-% 4 Trapezius left  --> Sud
+% 3 Trapezius right --> North
+% 4 Trapezius left  --> South
 
 % ¡WARNING! Simulink can do 1 simulation and then it freezes in Matlab2024b
 % To run multiple simulations it is suggested to close simulink and reopen
